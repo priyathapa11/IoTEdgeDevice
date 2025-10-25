@@ -15,12 +15,14 @@ system.mem_mode = 'timing'  # timing simulation
 system.mem_ranges = [AddrRange('512MB')]
 
 # Simple in-order CPU
-system.cpu = TimingSimpleCPU()
+system.cpu = Derive03CPU()
 
 # Cache Hierarchy
-icache = L1_ICache(size='16kB', assoc=2)
-dcache = L1_DCache(size='16kB', assoc=2)
-l2cache = L2Cache(size='128kB', assoc=4)
+icache = L1_ICache(size='64kB', assoc=2)
+dcache = L1_DCache(size='64kB', assoc=2)
+
+system.cpu.icache.prefetcher = StridePrefetcher()
+system.cpu.dcache.prefetcher = StridePrefetcher()
 
 # L2 bus
 system.l2bus = L2XBar()
